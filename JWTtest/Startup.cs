@@ -28,11 +28,8 @@ namespace JWTtest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST") ?? "localhost";
-            var password = Environment.GetEnvironmentVariable("SQLSERVER_SA_PASSWORD") ?? "kode123@";
-            var connString = $"Data Source={hostname};Initial Catalog=JWTtest;User ID=sa;Password={password};";
 
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString(connString), sqlOptions => sqlOptions.MigrationsAssembly("TokenAuthWebApiCore.server")));
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentitySecurity"), sqlOptions => sqlOptions.MigrationsAssembly("JWTtest")));
 
             services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<IdentityContext>()
